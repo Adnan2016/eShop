@@ -19,8 +19,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Men Clothes</a></li>
-                        <li><a href="#">Women Clothes</a></li>
+                        {{#each categories}}
+                        <li><a href="/products/{{this._id}}">{{this.name}}</a></li>
+
+                        {{/each}}
 
 
                     </ul>

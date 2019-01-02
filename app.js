@@ -16,9 +16,10 @@ const MongoStore = require('connect-mongo')(session);
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
+var apiRouter = require('./api/api');
 
-
-
+var Category = require('./models/category');
 
 var app = express();
 
@@ -54,9 +55,19 @@ app.use(function(req, res, next){
   next();
 });
 
+//Adding a Category middleware
+app.use(function (req, res, next) {
+  Category.find({}, function(err, categories){
+  if(err) return next(err);
+  res.locals.categories = categories;
+  next();
+  });
+});
+
 app.use('/user', userRouter);
 app.use('/', indexRouter);
-
+app.use('/admin', adminRouter);
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
