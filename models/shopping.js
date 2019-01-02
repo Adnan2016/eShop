@@ -1,3 +1,6 @@
+// Todo: Implement increasing and decreasing of items from cart page
+// Todo: Removal of a product from cart
+
 module.exports = function Shopping(shoppingItems) {
     this.items = shoppingItems.items || {};
     this.totalQty = shoppingItems.totalQty || 0;
@@ -20,5 +23,13 @@ module.exports = function Shopping(shoppingItems) {
             shoppingList.push(this.items[id]);
         }
         return shoppingList;
+    };
+
+    this.decrement = function () {
+
+    };
+
+    this.increment = function () {
+
     };
 };
