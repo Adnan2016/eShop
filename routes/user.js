@@ -52,7 +52,7 @@ router.post('/signup', passport.authenticate('local.signup', {
 
 
 
-/* GET Signup page */
+/* GET Login page */
 router.get('/login', function(req, res, next){
     var messages = req.flash('error');
     res.render('user/login', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length > 0});

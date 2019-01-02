@@ -11,13 +11,35 @@ var Order = require('../models/order');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var successMsg = req.flash('success')[0];
-    Product.find(function(err, docs){
-        var productChunks = [];
-        var chunkSize = 3;
-        for (var i = 0; i < docs.length; i += chunkSize) {
-            productChunks.push(docs.slice(i, i + chunkSize));
-        }
-        res.render('index', { title: 'Shopping Cart', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    // Product.find(function(err, docs){
+    //     var productChunks = [];
+    //     var chunkSize = 3;
+    //     for (var i = 0; i < docs.length; i += chunkSize) {
+    //         productChunks.push(docs.slice(i, i + chunkSize));
+    //     }
+        res.render('index', { title: 'Shopping Cart', successMsg: successMsg, noMessage: !successMsg });
+
+
+});
+
+router.get('/products/:id', function(req, res, next){
+    Product
+        .find({category: req.params.id})
+        .populate('category')
+        .exec(function(err, products){
+            if(err) return next(err);
+            res.render('main/category', {
+                products: products
+            });
+        });
+});
+
+router.get('/product/:id', function (req, res, next) {
+    Product.findById({_id: req.params.id}, function (err, product) {
+        if(err) return next(err);
+        res.render('main/product',{
+            product: product
+        });
     });
 
 });
