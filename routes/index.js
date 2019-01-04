@@ -11,14 +11,31 @@ var Order = require('../models/order');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var successMsg = req.flash('success')[0];
-    // Product.find(function(err, docs){
-    //     var productChunks = [];
-    //     var chunkSize = 3;
-    //     for (var i = 0; i < docs.length; i += chunkSize) {
-    //         productChunks.push(docs.slice(i, i + chunkSize));
-    //     }
-        res.render('index', { title: 'Shopping Cart', successMsg: successMsg, noMessage: !successMsg });
-
+/*
+     Product.find(function(err, docs) {
+         console.log("index log result of find\n");
+         console.log(docs);
+         var productChunks = [];
+         var chunkSize = 3;
+         for (var i = 0; i < docs.length; i += chunkSize) {
+             productChunks.push(docs.slice(i, i + chunkSize));
+         }
+         res.render('index', {
+             title: 'Shopping',
+             products: productChunks,
+             successMsg: successMsg,
+             noMessage: !successMsg
+         });
+     });
+*/
+    Product
+        .find()
+        .exec(function(err, products){
+            if(err) return next(err);
+            res.render('index', {
+                products: products
+            });
+        });
 
 });
 
