@@ -46,7 +46,7 @@ router.get('/search', function(req, res, next){
     }, function(err, results){
       results:
       if(err) return next(err);
-      var data = result.hits.hits.map(function(hit){
+      var data = results.hits.hits.map(function(hit){
         return hit;
       });
       console.log("Search result is\n");
