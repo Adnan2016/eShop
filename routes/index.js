@@ -8,17 +8,86 @@ var passport = require('passport');
 var Product = require('../models/product');
 var Order = require('../models/order');
 
+
+// Product.createMapping(function(err,mapping){
+//   if(err){
+//     console.log("error creating mapping");
+//     console.log(err);
+//   }else{
+//     console.log("Mapping Created");
+//     console.log(mapping);
+//   }
+// });
+
+var stream = Product.synchronize();
+var count = 0;
+
+stream.on('data', function(){
+  count++;
+});
+
+stream.on('close', function(){
+  console.log("Indexed " + count + " documents.\n")
+});
+
+stream.on('error', function(err){
+  console.log(err);
+});
+
+router.post("/search", function(req, res, next){
+  console.log("Done post request from search bar");
+  res.redirect('/search?q=' + req.body.q);
+});
+
+router.get('/search', function(req, res, next){
+  if(req.query.q){
+    Product.search({
+      query_string: {query: req.query.q}
+    }, function(err, results){
+      results:
+      if(err) return next(err);
+      var data = results.hits.hits.map(function(hit){
+        return hit;
+      });
+      console.log("Search result is\n");
+      console.log(data);
+      res.render('searchresult', {
+        query: req.query.q,
+        data: data
+      });
+    });
+  }
+});
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var successMsg = req.flash('success')[0];
-    // Product.find(function(err, docs){
-    //     var productChunks = [];
-    //     var chunkSize = 3;
-    //     for (var i = 0; i < docs.length; i += chunkSize) {
-    //         productChunks.push(docs.slice(i, i + chunkSize));
-    //     }
-        res.render('index', { title: 'Shopping Cart', successMsg: successMsg, noMessage: !successMsg });
-
+/*
+     Product.find(function(err, docs) {
+         console.log("index log result of find\n");
+         console.log(docs);
+         var productChunks = [];
+         var chunkSize = 3;
+         for (var i = 0; i < docs.length; i += chunkSize) {
+             productChunks.push(docs.slice(i, i + chunkSize));
+         }
+         res.render('index', {
+             title: 'Shopping',
+             products: productChunks,
+             successMsg: successMsg,
+             noMessage: !successMsg
+         });
+     });
+*/
+    Product
+        .find()
+        .exec(function(err, products){
+            if(err) return next(err);
+            res.render('index', {
+                products: products
+            });
+        });
 
 });
 
@@ -55,8 +124,8 @@ router.get('/shop/:id', function(req, res, next){
         }
         shopping.add(product, product.id);
         req.session.shopping = shopping;
-        console.log(req.session.shopping);
-        res.redirect('/');
+        //console.log(req.session.shopping);
+        res.redirect('back');
     });
 });
 

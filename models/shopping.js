@@ -22,7 +22,7 @@ module.exports = function Shopping(shoppingItems) {
         for (var id in this.items) {
             shoppingList.push(this.items[id]);
         }
-        console.log(shoppingList);
+        //console.log(shoppingList);
         return shoppingList;
     };
 
