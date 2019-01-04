@@ -8,6 +8,17 @@ var passport = require('passport');
 var Product = require('../models/product');
 var Order = require('../models/order');
 
+
+// Product.createMapping(function(err,mapping){
+//   if(err){
+//     console.log("error creating mapping");
+//     console.log(err);
+//   }else{
+//     console.log("Mapping Created");
+//     console.log(mapping);
+//   }
+// });
+
 var stream = Product.synchronize();
 var count = 0;
 
@@ -16,7 +27,7 @@ stream.on('data', function(){
 });
 
 stream.on('close', function(){
-  console.log("Indexed " + count + " documents")
+  console.log("Indexed " + count + " documents.\n")
 });
 
 stream.on('error', function(err){

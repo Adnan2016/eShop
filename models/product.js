@@ -8,6 +8,11 @@ var schema = new Schema({
     name: {type: String, required: true},
     price: {type: Number, required: true}
 });
+ schema.plugin(mongoosastic,{
+   hosts: [
+     'localhost:9200'
+   ]
+ });
 
 schema.plugin(mongoosastic, {
   hosts: [

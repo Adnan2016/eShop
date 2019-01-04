@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next){
   res.locals.userRegistered = req.isAuthenticated();
   res.locals.session = req.session;
-  res.locals._token = req.csrfToken();
+  res.locals._token = req.csrfToken(); // https://stackoverflow.com/questions/20484649/csrf-token-not-working-when-submitting-form-in-express
   next();
 });
 

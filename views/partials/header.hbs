@@ -28,11 +28,11 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group" method="post" action="/search">
-                    <input type="text" name="q" class="form-control" placeholder="Search">
+            <form class="navbar-form navbar-left" method="post" action="/search">
+                <div class="form-group">
+                    <input type="text" name = 'q' class="form-control" placeholder="Search">
                 </div>
-                <input type="hidden" name="_csrf" value="{{_token}}">
+                <input type="hidden" name="_csrf" value="{{ _token }}">
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
