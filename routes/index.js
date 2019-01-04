@@ -55,8 +55,8 @@ router.get('/shop/:id', function(req, res, next){
         }
         shopping.add(product, product.id);
         req.session.shopping = shopping;
-        console.log(req.session.shopping);
-        res.redirect('/');
+        //console.log(req.session.shopping);
+        res.redirect('back');
     });
 });
 
