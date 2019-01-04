@@ -45,6 +45,7 @@ router.get('/product/:id', function (req, res, next) {
 });
 
 router.get('/shop/:id', function(req, res, next){
+    console.log("Log message from /shop:id\n");
     var productId = req.params.id;
     var shopping = new Shopping(req.session.shopping ? req.session.shopping : {});
 
@@ -57,6 +58,59 @@ router.get('/shop/:id', function(req, res, next){
         console.log(req.session.shopping);
         res.redirect('/');
     });
+});
+
+router.get('/shop-incr/:id', function(req, res, next){
+    console.log("******** Called shop-incr *******\n");
+
+    var productId = req.params.id;
+    var shopping = new Shopping(req.session.shopping ? req.session.shopping : {});
+
+    Product.findById(productId, function(err, product){
+        if (err){
+            return res.redirect('/');
+        }
+        shopping.increment(product, product.id);
+        req.session.shopping = shopping;
+        console.log(req.session.shopping);
+        res.redirect('/shoppingList');
+    });
+});
+
+router.get('/shop-decr/:id', function(req, res, next){
+    console.log("******** Called shop-dec *******\n");
+
+    var productId = req.params.id;
+    var shopping = new Shopping(req.session.shopping ? req.session.shopping : {});
+
+    Product.findById(productId, function(err, product){
+        if (err){
+            return res.redirect('/');
+        }
+        shopping.decrement(product, product.id);
+        req.session.shopping = shopping;
+        console.log(req.session.shopping);
+        res.redirect('/shoppingList');
+    });
+
+});
+
+router.get('/shop-rm/:id', function(req, res, next){
+    console.log("******** Called shop-dec *******\n");
+
+    var productId = req.params.id;
+    var shopping = new Shopping(req.session.shopping ? req.session.shopping : {});
+
+    Product.findById(productId, function(err, product){
+        if (err){
+            return res.redirect('/');
+        }
+        shopping.remove(product, product.id);
+        req.session.shopping = shopping;
+        console.log(req.session.shopping);
+        res.redirect('/shoppingList');
+    });
+
 });
 
 

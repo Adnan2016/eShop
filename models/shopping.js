@@ -9,7 +9,7 @@ module.exports = function Shopping(shoppingItems) {
     this.add = function(item, id) {
         var haveItem = this.items[id];
         if (!haveItem) {
-            haveItem = this.items[id] = {item: item, qty: 0, price: 0};
+            haveItem = this.items[id] = {item: item, qty: 0, price: 0, id: id};
         }
         haveItem.qty++;
         haveItem.price = haveItem.item.price * haveItem.qty;
@@ -22,14 +22,49 @@ module.exports = function Shopping(shoppingItems) {
         for (var id in this.items) {
             shoppingList.push(this.items[id]);
         }
+        //console.log(shoppingList);
         return shoppingList;
     };
 
-    this.decrement = function () {
+    this.decrement = function (item, id) {
+        var haveItem = this.items[id];
+        if (!haveItem) {
+            haveItem = this.items[id] = {item: item, qty: 0, price: 0, id: id};
+        }
+        haveItem.qty--;
+        haveItem.price = haveItem.item.price * haveItem.qty;
+        this.totalQty--;
+        this.totalPrice -= haveItem.item.price;
+
+        if(haveItem.qty < 1){ // zero or negative, basic check for zero but covering negative is extra safety
+            delete this.items[id];
+        }
+
 
     };
 
-    this.increment = function () {
+    this.increment = function (item, id) {
+        var haveItem = this.items[id];
+        if (!haveItem) {
+            haveItem = this.items[id] = {item: item, qty: 0, price: 0, id: id};
+        }
+        haveItem.qty++;
+        haveItem.price = haveItem.item.price * haveItem.qty;
+        this.totalQty++;
+        this.totalPrice += haveItem.item.price;
 
+
+    };
+
+    this.remove = function (item, id) {
+        var haveItem = this.items[id];
+        if (!haveItem) {
+            return;
+        }
+        //haveItem.price = haveItem.item.price * haveItem.qty;
+        this.totalQty -= haveItem.qty;
+        this.totalPrice -= haveItem.price;
+
+        delete this.items[id];
     };
 };

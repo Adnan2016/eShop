@@ -5,13 +5,14 @@
                     {{#each products}}
                         <li class="list-group-item">
                             <span class="badge">{{this.qty}}</span>
-                            <strong>{{this.item.title}}</strong>
+                            <strong>{{this.items.title}}</strong>
                             <span class="label label-success">€{{this.price}}</span>
                             <div class="btn-group">
                                 <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Action <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Reduce Quantity</a></li>
-                                    <li><a href="#">Remove All Items</a></li>
+                                    <li><a href="/shop-decr/{{this.item._id}}">Reduce Quantity</a></li>
+                                    <li><a href="/shop-incr/{{this.item._id}}">Increase Quantity</a></li>
+                                    <li><a href="/shop-rm/{{this.item._id}}">Remove Product</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -30,7 +31,7 @@
 
     <div class="row">
         <div class="col-sm-6 col-md-4">
-            <a href="/buy" type="button" class="btn btn-primary">Shop</a>
+            <a href="/buy" type="button" class="btn btn-primary">Check out</a>
         </div>
     </div>
 {{else}}
