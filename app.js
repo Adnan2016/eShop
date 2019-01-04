@@ -52,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next){
   res.locals.userRegistered = req.isAuthenticated();
   res.locals.session = req.session;
+  res.locals._token = req.csrfToken();
   next();
 });
 

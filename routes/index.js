@@ -8,6 +8,47 @@ var passport = require('passport');
 var Product = require('../models/product');
 var Order = require('../models/order');
 
+var stream = Product.synchronize();
+var count = 0;
+
+stream.on('data', function(){
+  count++;
+});
+
+stream.on('close', function(){
+  console.log("Indexed " + count + " documents")
+});
+
+stream.on('error', function(err){
+  console.log(err);
+});
+
+router.post("/search", function(req, res, next){
+  console.log("Done post request from search bar");
+  res.redirect('/search?q=' + req.body.q);
+});
+
+router.get('/search', function(req, res, next){
+  if(req.query.q){
+    Product.search({
+      query_string: {query: req.query.q}
+    }, function(err, results){
+      results:
+      if(err) return next(err);
+      var data = result.hits.hits.map(function(hit){
+        return hit;
+      });
+      console.log("Search result is\n");
+      console.log(data);
+      res.render('searchresult', {
+        query: req.query.q,
+        data: data
+      });
+    });
+  }
+});
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var successMsg = req.flash('success')[0];
